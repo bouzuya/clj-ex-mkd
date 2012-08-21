@@ -7,12 +7,21 @@
     (MarkdownProcessor.)
     (.markdown markdown)))
 
-(defn read-markdown-file
-  [file-name]
-  (with-open [reader (clojure.java.io/reader file-name)]
-    (markdown-to-html (apply str (interpose "\n" (line-seq reader))))))
+(defn load-markdown-file
+  [markdown-file]
+  (markdown-to-html (slurp markdown-file)))
+
+(defn load-jekyll-post-file
+  [post-file]
+  (let [text (slurp post-file)
+        [_ yaml content] (re-find #"(?m)(?s)^---\s*(.*?)^---\s*^(.*)" text)]
+    (reduce (fn [m [_ k v]] (assoc m (keyword k) v))
+            {:content (markdown-to-html content)}
+            (re-seq #"(\w+):\s*(.*)\n" yaml))))
 
 (defn -main
   [& args]
-  (print (read-markdown-file "./README.md")))
+  (print (load-markdown-file "./README.md"))
+  (print (load-jekyll-post-file "./2012-02-16-jekyll.markdown")))
+
 
