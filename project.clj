@@ -4,5 +4,6 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [org.markdownj/markdownj "0.3.0-1.0.2b4"]]
+                 [org.markdownj/markdownj "0.3.0-1.0.2b4"]
+                 [enlive "1.0.1"]]
   :main clj-ex-mkd.core)
